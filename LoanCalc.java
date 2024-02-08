@@ -60,18 +60,16 @@ public class LoanCalc {
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
     	// Replace the following statement with your code
 		iterationCounter = 0;
-		double low = 0.00;
+		double low = loan/n;
 		double high = loan;
-		double simple;
-		double payment = ((high+low)/2);
-		while (high - low > epsilon)
+		double payment = ((loan)/2);
+		while (high-low > epsilon)
 		{
-			simple = endBalance(loan, rate, n, payment);
-			if (simple < 0-epsilon){
-				high = payment;
-			}
-			if (simple > epsilon){
+			if (endBalance(loan, rate, n, payment) * endBalance(loan, rate, n, low) >0){
 				low = payment;
+			}
+			else{
+				high  = payment;
 			}
 			iterationCounter++;
 			payment = ((high+low)/2);
@@ -84,7 +82,7 @@ public class LoanCalc {
 	* interest rate (as a percentage), the number of periods (n), and the periodical payment.
 	*/
 	private static double endBalance(double loan, double rate, int n, double payment) {
-		for (int i=0; i<n; i++)
+		for (int i=1; i<=n; i++)
 		{
 		loan = ((loan-payment)*(rate/100 + 1));
 		}
